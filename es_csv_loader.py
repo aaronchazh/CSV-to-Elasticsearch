@@ -53,13 +53,13 @@ def create_index(file_path, es_host, index_name, type_name, num_shards, num_repl
             bulk_data.append(data_dict)
 
         # create ES client and create index
-        es = Elasticsearch(hosts = [es_host])
+        es = Elasticsearch(hosts=[es_host])
 
         # if index already exists and update flag is true, delete the existing index, else exit the program
         if es.indices.exists(index_name):
             if update:  
                 print("deleting existing index")
-                res = es.indices.delete(index = index_name)
+                res = es.indices.delete(index=index_name)
             else:
                 print("index already exists")
                 sys.exit()
@@ -72,10 +72,10 @@ def create_index(file_path, es_host, index_name, type_name, num_shards, num_repl
                 "number_of_replicas": num_replicas
             }               
         }
-        res = es.indices.create(index = index_name, body = request_body)
+        res = es.indices.create(index=index_name, body=request_body)
 
         # bulk index the data
-        res = es.bulk(index = index_name, body = bulk_data, refresh = True)
+        res = es.bulk(index=index_name, body=bulk_data, refresh=True)
 
 def main():
     # create command line argument parser
@@ -119,4 +119,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
