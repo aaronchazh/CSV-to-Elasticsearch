@@ -79,8 +79,7 @@ def create_index(file_path, es_host, index_name, type_name, num_shards, num_repl
 
 def main():
     # create command line argument parser
-    parser = argparse.ArgumentParser()
-    required = parser.add_argument_group('required arguments')
+    parser = argparse.ArgumentParser(description="Python script to load a csv file into an index in elasticsearch")
     parser.add_argument("file_path", help='path to the file', type=str)
     parser.add_argument("index_name", help='name of index to be created', type=str)
     parser.add_argument("type_name", help='name of type', type=str)
