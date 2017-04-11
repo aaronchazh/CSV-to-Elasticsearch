@@ -31,9 +31,9 @@ from elasticsearch import Elasticsearch
 #
 def create_index(file_path, es_host, index_name, type_name, num_shards, num_replicas, seperator, update):
     # open file
-    with open(file_path) as f:
+    with open(file_path) as file:
         # create csv reader and parse headers
-        csv_file = csv.reader(f, delimiter=seperator)
+        csv_file = csv.reader(file, delimiter=seperator)
         header = next(csv_file)
         header = [item.lower() for item in header]
 
