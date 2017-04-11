@@ -1,2 +1,8 @@
 # CSV-to-Elasticsearch
-python script to load a csv file into an index in elasticsearch
+Python script to load a csv file into an index in elasticsearch
+
+Requirements:  
+Python 2 or 3  
+Elasticsearch: https://elasticsearch-py.readthedocs.io/en/master/  
+  
+  
