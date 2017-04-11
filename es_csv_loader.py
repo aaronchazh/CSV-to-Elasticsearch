@@ -18,9 +18,20 @@ import argparse
 
 from elasticsearch import Elasticsearch
 
-def create_index(file_name, es_host, index_name, type_name, num_shards, num_replicas, seperator, update):
+# create_index creates an elasticsearch index from a csv file
+#
+# @param (string) file_path: the path to the file
+# @param (dict) es_host: dictionary containing the host and port of the machine running elasticsearch
+# @param (string) index_name: name of index to be created 
+# @param (string) type_name: name of type
+# @param (int) num_shard: number of shards for index
+# @param (int) num_replicas: number of replicas for index
+# @param (string) seperator: the delimiter for the file
+# @param (boolean) update: boolean indicating wheter or not you are updating an existing index
+#
+def create_index(file_path, es_host, index_name, type_name, num_shards, num_replicas, seperator, update):
     # open file
-    with open(file_name) as f:
+    with open(file_path) as f:
         # create csv reader and parse headers
         csv_file = csv.reader(f, delimiter=seperator)
         header = next(csv_file)
@@ -53,15 +64,14 @@ def create_index(file_name, es_host, index_name, type_name, num_shards, num_repl
                 print("index already exists")
                 sys.exit()
 
+        # create the index
+        print("creating index " + index_name)
         request_body = {
             "settings" : {
                 "number_of_shards": num_shards,
                 "number_of_replicas": num_replicas
             }               
         }
-
-        # create the index
-        print("creating index " + index_name)
         res = es.indices.create(index = index_name, body = request_body)
 
         # bulk index the data
@@ -71,15 +81,15 @@ def main():
     # create command line argument parser
     parser = argparse.ArgumentParser()
     required = parser.add_argument_group('required arguments')
-    parser.add_argument("file_name", help='name of file', type=str)
+    parser.add_argument("file_path", help='path to the file', type=str)
     parser.add_argument("index_name", help='name of index to be created', type=str)
     parser.add_argument("type_name", help='name of type', type=str)
     parser.add_argument("-host", help='host name of machine running Elasticsearch [default=localhost]', type=str)
     parser.add_argument("-port", help='port of machine running Elasticsearch [default=9200]', type=int)
     parser.add_argument("-num_shards", help='number of shards for index [default=1]', type=int)
     parser.add_argument("-num_replicas", help='number of replicas for index [default=0]', type=int)
-    parser.add_argument("-delimiter", help='number of replicas for index [default=,]', type=str)
-    parser.add_argument("-update", help='update an existing index [default=False]', type=bool)
+    parser.add_argument("-delimiter", help='the delimiter for the file [default=,]', type=str)
+    parser.add_argument("-update", help='boolean indicating wheter or not you are updating an existing index [default=False]', type=bool)
     args = parser.parse_args()
 
     # set default variables for optional parameters
@@ -106,7 +116,7 @@ def main():
     es_host = {"host" : host, "port" : port}
 
     # create the index
-    create_index(args.file_name, es_host, args.index_name, args.type_name, num_shards, num_replicas, seperator, update)
+    create_index(args.file_path, es_host, args.index_name, args.type_name, num_shards, num_replicas, seperator, update)
 
 if __name__ == "__main__":
     main()
