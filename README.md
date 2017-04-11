@@ -7,3 +7,10 @@ Elasticsearch: https://elasticsearch-py.readthedocs.io/en/master/
   
 Usage:  
 Run "python es_csv_loader.py -h" for usage details
+  
+Examples:  
+python es_csv_loader.py test.csv testname testype  
+  
+python es_csv_loader.py test.csv testname testype -host localhost -num_shards 1 -update True  
+  
+python es_csv_loader.py test.csv testname testype -host localhost -port 9200 -num_shards 1 -num_replicas 0 -delimiter \t -update True  
