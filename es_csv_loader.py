@@ -24,7 +24,7 @@ from elasticsearch import Elasticsearch
 # @param (dict) es_host: dictionary containing the host and port of the machine running elasticsearch
 # @param (string) index_name: name of index to be created 
 # @param (string) type_name: name of type
-# @param (int) num_shard: number of shards for index
+# @param (int) num_shards: number of shards for index
 # @param (int) num_replicas: number of replicas for index
 # @param (string) seperator: the delimiter for the file
 # @param (boolean) update: boolean indicating wheter or not you are updating an existing index
